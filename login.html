@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Chigri Buses</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Custom styles for the login page */
+    body {
+      background: rgba(28, 152, 174, 0.5);
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #fff;
+    }
+
+    .login-container {
+      background: rgba(43, 153, 98, 0.4);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 40px;
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+      color: rgb(18, 106, 18);
+    }
+
+    .login-container h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+    }
+
+    .login-container form {
+      width: 100%;
+    }
+
+    .login-container label {
+      display: block;
+      text-align: left;
+      margin: 10px 0 5px;
+      color: #913314;
+      font-size: 0.9em;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    .login-container input:focus {
+      outline: none;
+      box-shadow: 0 0 5px #ff6a95;
+    }
+
+    .login-container button {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      background: #ff4b8b;
+      color: #fff;
+      border-radius: 25px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .login-container button:hover {
+      background: #ff3573;
+    }
+
+    .login-container p {
+      margin-top: 10px;
+      font-size: 0.9em;
+    }
+
+    .login-container p a {
+      color: #2f03f4;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .login-container h1 {
+        font-size: 1.8em;
+      }
+
+      .login-container button {
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <h1>Login</h1>
+    <form id="login-form">
+      <label for="username">Username:</label>
+      <input type="text" id="username" name="username" placeholder="Enter your username" required>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required>
+      <button type="button" id="login-btn">Login</button>
+    </form>
+    <p>Don't have an account? <a href="register.html">Register here</a></p>
+  </div>
+
+  <script>
+    document.getElementById('login-btn').addEventListener('click', function() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      if (username && password) {
+        // Redirect to the home page after successful login
+        window.location.href = 'home.html';
+      } else {
+        alert('Please enter both username and password.');
+      }
+    });
+  </script>
+</body>
+</html>

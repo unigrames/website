@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bus Ticket Booking - Chigri Buses</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f4f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .booking-container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 500px;
+      max-width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    select, input[type="number"], .calculate-btn, .book-btn {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s ease;
+    }
+
+    select:focus, input[type="number"]:focus {
+      border-color: #4CAF50;
+      outline: none;
+    }
+
+    .calculate-btn, .book-btn {
+      background: linear-gradient(to right, #00b4d8, #0077b6);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      margin-top: 20px;
+    }
+
+    .calculate-btn:hover, .book-btn:hover {
+      background-color: #45a049;
+    }
+
+    .price-container {
+      margin-top: 20px;
+    }
+
+    .price {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .footer {
+      font-size: 14px;
+      margin-top: 20px;
+      color: #777;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="booking-container">
+    <h1>Book Your Bus Ticket</h1>
+    <form id="bookingForm">
+      <!-- Source and Destination Select -->
+      <select id="source" name="source" required>
+        <option value="" disabled selected>Choose Source</option>
+        <option value="Abasan Circle">Abasan Circle</option>
+        <option value="Ambedkar Circle">Ambedkar Circle</option>
+        <option value="BVM School">BVM School</option>
+        <option value="Circuit House">Circuit House</option>
+        <option value="Gandhi Circle">Gandhi Circle</option>
+        <option value="Gogte Circle">Gogte Circle</option>
+        <option value="Hubli Old Bus Stand">Hubli Old Bus Stand</option>
+        <option value="Income Tax Office">Income Tax Office</option>
+        <option value="Manish Circle">Manish Circle</option>
+        <option value="Vidyanagar">Vidyanagar</option>
+      </select>
+
+      <select id="destination" name="destination" required>
+        <option value="" disabled selected>Choose Destination</option>
+        <option value="Abasan Circle">Abasan Circle</option>
+        <option value="Ambedkar Circle">Ambedkar Circle</option>
+        <option value="BVM School">BVM School</option>
+        <option value="Circuit House">Circuit House</option>
+        <option value="Gandhi Circle">Gandhi Circle</option>
+        <option value="Gogte Circle">Gogte Circle</option>
+        <option value="Hubli Old Bus Stand">Hubli Old Bus Stand</option>
+        <option value="Income Tax Office">Income Tax Office</option>
+        <option value="Manish Circle">Manish Circle</option>
+        <option value="Vidyanagar">Vidyanagar</option>
+      </select>
+      <!-- Error message for source and destination -->
+      <div id="sourceDestinationError" class="error-message" style="display: none;">Source and Destination cannot be the same.</div>
+
+      <!-- Passenger Count Dropdown -->
+      <select id="passengerCount" name="passengerCount" required>
+        <option value="" disabled selected>Number of Passengers</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+      </select>
+
+      <!-- Calculate Button -->
+      <button type="button" class="calculate-btn" onclick="calculatePrice()">Calculate Price</button>
+
+      <!-- Price Display -->
+      <div class="price-container" id="priceContainer" style="display: none;">
+        <p>Price per person: ₹<span id="pricePerPerson" class="price"></span></p>
+        <p>Total Price: ₹<span id="totalPrice" class="price"></span></p>
+      </div>
+
+      <!-- Booking Button -->
+      <button type="submit" class="book-btn">Proceed to Payment</button>
+    </form>
+
+    <div class="footer">© 2024 Chigri Buses. All rights reserved.</div>
+  </div>
+
+  <script>
+    // Stops and their index
+    const stops = [
+      "Abasan Circle",
+      "Ambedkar Circle",
+      "BVM School",
+      "Circuit House",
+      "Gandhi Circle",
+      "Gogte Circle",
+      "Hubli Old Bus Stand",
+      "Income Tax Office",
+      "Manish Circle",
+      "Vidyanagar"
+    ];
+
+    const pricePerStop = 6; // ₹6 per stop
+
+    function calculatePrice() {
+      const source = document.getElementById('source').value;
+      const destination = document.getElementById('destination').value;
+      const passengerCount = document.getElementById('passengerCount').value;
+      const errorElement = document.getElementById('sourceDestinationError');
+
+      // Hide previous error message
+      errorElement.style.display = 'none';
+
+      if (source && destination && passengerCount) {
+        if (source === destination) {
+          errorElement.style.display = 'block';
+          return;
+        }
+
+        // Calculate stops
+        const sourceIndex = stops.indexOf(source);
+        const destinationIndex = stops.indexOf(destination);
+
+        // Ensure source comes before destination
+        if (sourceIndex > destinationIndex) {
+          alert("Destination should be after Source.");
+          return;
+        }
+
+        // Number of stops between source and destination
+        const numberOfStops = destinationIndex - sourceIndex;
+
+        // Price calculations
+        const pricePerPerson = pricePerStop * numberOfStops;
+        const totalPrice = pricePerPerson * passengerCount;
+
+        // Show price details
+        document.getElementById('priceContainer').style.display = 'block';
+        document.getElementById('pricePerPerson').textContent = pricePerPerson;
+        document.getElementById('totalPrice').textContent = totalPrice;
+      } else {
+        alert('Please fill in all the fields.');
+      }
+    }
+
+    // Booking Form Submission (for now, just a redirect to payment page)
+    document.getElementById('bookingForm').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form submission
+      alert('Redirecting to payment page...');
+      // Redirect to the payment page (for now, just an alert)
+      window.location.href = "payment.html"; // Create payment page or link to actual payment gateway
+    });
+  </script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Pass - Chigri Buses</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f5f5;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .section {
+      margin-bottom: 30px;
+    }
+
+    .section h2 {
+      font-size: 20px;
+      color: #0077b6;
+    }
+
+    .section button {
+      background-color: #0077b6;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .section button:hover {
+      background-color: #005f99;
+    }
+
+    .history {
+      margin-top: 20px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Student Pass Management</h1>
+
+    <div class="section">
+      <h2>Register for a New Pass</h2>
+      <p>Don't have a student pass? Click below to register.</p>
+      <button onclick="window.location.href='register-pass.html'">Register for a Student Pass</button>
+    </div>
+
+    <div class="section">
+      <h2>Recharge Your Pass</h2>
+      <button onclick="alert('Recharge feature coming soon!')">Recharge Pass</button>
+    </div>
+
+    <div class="section">
+      <h2>Transaction History</h2>
+      <div class="history">
+        <p>No transactions available.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

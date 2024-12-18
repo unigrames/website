@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment - Chigri Buses</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .spacer {
+      height: 50px; /* Space at the top for consistency */
+    }
+
+    .header-container {
+      background: linear-gradient(to right, #00b4d8, #0077b6);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      border-radius: 10px;
+      width: 500px;
+      max-width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .header-container h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+
+    .payment-container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 500px;
+      max-width: 100%;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 20px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .payment-options .payment-btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      background: linear-gradient(to right, #00b4d8, #0077b6);
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      margin: 10px 0;
+      transition: background-color 0.3s;
+    }
+
+    .payment-btn:hover {
+      background-color: #005f8b;
+    }
+
+    .qr-code-btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      background-color: #ff8c00;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      margin: 10px 0;
+      transition: background-color 0.3s;
+    }
+
+    .qr-code-btn:hover {
+      background-color: #ff7f00;
+    }
+
+    .success-message {
+      color: green;
+      font-size: 18px;
+      margin: 20px 0;
+      display: none;
+    }
+
+    .redirect-btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
+      background-color: #28a745;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      margin: 10px 0;
+      transition: background-color 0.3s;
+    }
+
+    .redirect-btn:hover {
+      background-color: #218838;
+    }
+
+    .qr-code-section {
+      margin-top: 20px;
+      display: none;
+    }
+
+    #qr-code {
+      width: 200px;
+      height: 200px;
+      margin: 20px auto;
+    }
+
+    .footer {
+      font-size: 14px;
+      color: #777;
+      text-align: center;
+    }
+
+    .or-text {
+      font-size: 18px;
+      color: #555;
+      margin: 20px 0;
+    }
+
+    .section-title {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Spacer for top empty space -->
+  <div class="spacer"></div>
+
+  <!-- Header Section -->
+  <div class="header-container">
+    <h1>Complete Your Payment</h1>
+  </div>
+
+  <!-- Payment Options Container -->
+  <div class="payment-container">
+    <h2>Select a Payment Method</h2>
+
+    <!-- Payment Options Section -->
+    <div class="payment-options">
+      <button class="payment-btn" onclick="openApp('google')">Google Pay</button>
+      <button class="payment-btn" onclick="openApp('paytm')">Paytm</button>
+      <button class="payment-btn" onclick="openApp('phonepe')">PhonePe</button>
+    </div>
+
+    <!-- Separator -->
+    <p class="or-text">OR</p>
+
+    <!-- QR Code Button -->
+    <button class="qr-code-btn" onclick="generateQRCode('https://example.com/payment-link')">Generate QR Code</button>
+
+    <!-- QR Code Section -->
+    <div class="qr-code-section" id="qr-code-section">
+      <div class="section-title">Scan the QR Code to Pay:</div>
+      <div id="qr-code"></div>
+      <button class="redirect-btn" onclick="downloadQRCode()">Download QR Code</button>
+    </div>
+
+    <!-- Simulated Payment Confirmation -->
+    <button class="redirect-btn" onclick="simulatePayment()">Confirm Payment</button>
+
+    <div class="success-message" id="success-message">
+      Payment Successful! Redirecting to feedback page...
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">© 2024 Chigri Buses. All rights reserved.</div>
+
+  <!-- QR Code JS Library -->
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+
+  <script>
+    // Redirect to apps
+    function openApp(app) {
+      const links = {
+        google: "https://pay.google.com/",
+        paytm: "https://paytm.com/",
+        phonepe: "https://www.phonepe.com/"
+      };
+      window.location.href = links[app];
+    }
+
+    // Generate QR Code
+    function generateQRCode(paymentLink) {
+      document.getElementById("qr-code-section").style.display = "block";
+      document.getElementById("qr-code").innerHTML = "";
+      new QRCode(document.getElementById("qr-code"), {
+        text: paymentLink,
+        width: 200,
+        height: 200,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
+    // Download QR Code
+    function downloadQRCode() {
+      const qrCodeImage = document.getElementById("qr-code").querySelector("img");
+      const link = document.createElement("a");
+      link.href = qrCodeImage.src;
+      link.download = "payment-qr-code.png";
+      link.click();
+    }
+
+    // Simulate Payment
+    function simulatePayment() {
+      const successMessage = document.getElementById("success-message");
+      successMessage.style.display = "block";
+
+      setTimeout(() => {
+        // Redirect to feedback page after 3 seconds
+        window.location.href = "feedback.html";
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

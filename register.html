@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Chigri Buses</title>
+  <script>
+    // JavaScript for form validation
+    function validateField(field) {
+      const username = document.getElementById('username');
+      const password = document.getElementById('password');
+      const confirmPassword = document.getElementById('confirmPassword');
+      const mobile = document.getElementById('mobile');
+      const otp = document.getElementById('otp');
+      const regexPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+      const regexUsername = /^[a-zA-Z][a-zA-Z0-9]*$/;
+      const regexMobile = /^[0-9]{10}$/;
+      const termsAccepted = document.getElementById('terms').checked;
+
+      let isValid = true;
+
+      // Clear previous error states
+      clearErrorState();
+
+      // Username validation
+      if (field === 'username') {
+        if (!regexUsername.test(username.value)) {
+          showError(username, "Username must start with a letter and can contain numbers.");
+          isValid = false;
+        }
+      }
+
+      // Password validation
+      if (field === 'password') {
+        if (!regexPassword.test(password.value)) {
+          showError(password, "Password must contain at least 8 characters, including one uppercase, one lowercase, one number, and one special character.");
+          isValid = false;
+        }
+      }
+
+      // Confirm Password validation
+      if (field === 'confirmPassword') {
+        if (password.value !== confirmPassword.value) {
+          showError(confirmPassword, "Passwords do not match.");
+          isValid = false;
+        }
+      }
+
+      // Mobile number validation
+      if (field === 'mobile') {
+        if (!regexMobile.test(mobile.value)) {
+          showError(mobile, "Please enter a valid 10-digit mobile number.");
+          isValid = false;
+        }
+      }
+
+      // OTP validation (check if OTP entered matches '0000')
+      if (field === 'otp') {
+        if (otp && otp.value !== '0000') {
+          showError(otp, "Invalid OTP.");
+          isValid = false;
+        }
+      }
+
+      // Terms and conditions validation
+      if (field === 'terms' && !termsAccepted) {
+        showError(document.getElementById('terms'), "You must agree to the terms and conditions.");
+        isValid = false;
+      }
+
+      // Enable/Disable submit button based on validation
+      document.getElementById('registerBtn').disabled = !isValid;
+      
+      return isValid;
+    }
+
+    // Show error state with message
+    function showError(element, message) {
+      element.style.borderColor = 'red';
+      element.style.backgroundColor = '#ffe6e6'; // Light red background for error
+      const errorMessage = document.createElement('p');
+      errorMessage.textContent = message;
+      errorMessage.style.color = 'red';
+      errorMessage.style.fontSize = '12px';
+      element.parentNode.appendChild(errorMessage);
+    }
+
+    // Clear previous error states
+    function clearErrorState() {
+      const inputs = document.querySelectorAll('input');
+      inputs.forEach(input => {
+        input.style.borderColor = '#ddd';
+        input.style.backgroundColor = 'transparent';
+        const errorMessages = input.parentNode.querySelectorAll('p');
+        errorMessages.forEach(msg => msg.remove());
+      });
+
+      // Clear terms and conditions error
+      const termsError = document.querySelector('#terms + p');
+      if (termsError) termsError.remove();
+    }
+
+    // Show OTP input field after clicking 'Send OTP' button
+    function showOtpField() {
+      if (document.getElementById('terms').checked) {
+        document.getElementById('otpField').style.display = 'block';
+      } else {
+        alert("You must agree to the terms and conditions before proceeding.");
+      }
+    }
+
+    // Pop-up message for successful registration
+    function showSuccessMessage() {
+      alert("You have successfully registered. Redirecting to login page...");
+      window.location.href = 'login.html'; // Redirect to login page
+    }
+
+    // Validate all fields on submit
+    function validateForm() {
+      if (validateField('username') && validateField('password') && validateField('confirmPassword') && validateField('mobile') && validateField('otp') && validateField('terms')) {
+        showSuccessMessage();
+      }
+      return false;
+    }
+  </script>
+  <style>
+    /* General styles */
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f4f8; /* Soft light background for body */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Register container */
+    .register-container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 600px; /* Wider container for better alignment */
+      max-width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    /* Input fields */
+    input[type="text"], input[type="email"], input[type="number"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 15px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus, input[type="password"]:focus {
+      border-color: #4CAF50;
+      outline: none;
+    }
+
+    /* Submit button */
+    input[type="submit"], .otp-btn {
+      background: linear-gradient(to right, #00b4d8, #0077b6);
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    input[type="submit"]:hover, .otp-btn:hover {
+      background-color: #45a049;
+    }
+
+    /* OTP input */
+    .otp-field {
+      display: none;
+      margin-top: 15px;
+    }
+
+    input[type="text"]#otp {
+      width: 100%;
+    }
+
+    p {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+
+    .login-link {
+      color: #4CAF50;
+      text-decoration: none;
+      margin-top: 20px;
+      display: inline-block;
+    }
+
+    .login-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Register button */
+    #registerBtn {
+      background: linear-gradient(to right, #00b4d8, #0077b6);
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 15px;
+    }
+
+    #registerBtn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+
+    .terms {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .terms input[type="checkbox"] {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h1>Create Your Account</h1>
+    <form onsubmit="return validateForm()" method="post">
+      <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" onblur="validateField('fullName')" required>
+      <input type="text" id="username" name="username" placeholder="Create a username" onblur="validateField('username')" required>
+      <input type="email" name="email" placeholder="Enter your email" onblur="validateField('email')" required>
+      <input type="number" id="mobile" name="mobile" placeholder="Enter your mobile number" onblur="validateField('mobile')" required>
+      <input type="number" name="age" placeholder="Enter your age" required>
+      <input type="password" id="password" name="password" placeholder="Create a password" onblur="validateField('password')" required>
+      <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" onblur="validateField('confirmPassword')" required>
+
+      <div class="terms">
+        <input type="checkbox" id="terms" onchange="validateField('terms')"> I agree to the <a href="#">Terms and Conditions</a>
+      </div>
+
+      <input type="button" class="otp-btn" value="Send OTP" onclick="showOtpField()">
+
+      <div id="otpField" class="otp-field">
+        <input type="text" id="otp" placeholder="Enter OTP" onblur="validateField('otp')" required>
+      </div>
+
+      <input type="submit" id="registerBtn" value="Register" disabled>
+    </form>
+
+    <p>Already have an account? <a href="login.html" class="login-link">Login here</a></p>
+  </div>
+</body>
+</html>

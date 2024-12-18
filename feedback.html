@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback - Chigri Buses</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .spacer {
+      height: 50px; /* Space at the top */
+    }
+
+    .feedback-container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      width: 600px;
+      max-width: 100%;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .question {
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .question-label {
+      font-size: 16px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .rating-options {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 10px;
+    }
+
+    .rating-option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .rating-option label {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      resize: none;
+      font-size: 14px;
+    }
+
+    textarea:focus {
+      outline: none;
+      border-color: #0077b6;
+    }
+
+    .submit-btn {
+      padding: 15px 30px;
+      font-size: 16px;
+      background: linear-gradient(to right, #00b4d8, #0077b6);
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      border: none;
+      margin-top: 20px;
+      transition: background-color 0.3s;
+    }
+
+    .submit-btn:hover {
+      background-color: #005f8b;
+    }
+
+    .footer {
+      font-size: 14px;
+      color: #777;
+      margin-top: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Spacer for consistent top space -->
+  <div class="spacer"></div>
+
+  <!-- Feedback Container -->
+  <div class="feedback-container">
+    <h1>We Value Your Feedback</h1>
+    <form id="feedback-form">
+      <!-- Question 1 -->
+      <div class="question">
+        <div class="question-label">How satisfied were you with the payment process?</div>
+        <div class="rating-options">
+          <div class="rating-option">
+            <input type="radio" name="payment" value="1" required>
+            <label>1</label>
+          </div>
+          <div class="rating-option">
+            <input type="radio" name="payment" value="2">
+            <label>2</label>
+          </div>
+          <div class="rating-option">
+            <input type="radio" name="payment" value="3">
+            <label>3</label>
+          </div>
+          <div class="rating-option">
+            <input type="radio" name="payment" value="4">
+            <label>4</label>
+          </div>
+          <div class="rating-option">
+            <input type="radio" name="payment" value="5">
+            <label>5</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question 2 -->
+      <div class="question">
+        <div class="question-label">How would you rate the booking experience?</div>
+        <div class="rating-options">
+          <div class="rating-option">
+            <input type="radio" name="booking" value="1" required>
+            <label>1</label>
+          </div>
+          <div class="rating-option">
+            <input type="radio" name="booking" value="2">
+            <label>2</label>
+          </div>
+          <div class="rating-option">
+            <input type="radio" name="booking" value="3">
+            <label>3</label>
+          </div>
+          <div class="rating-option">
+            <input type="radio" name="booking" value="4">
+            <label>4</label>
+          </div>
+          <div class="rating-option">
+            <input type="radio" name="booking" value="5">
+            <label>5</label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Comments -->
+      <div class="question">
+        <div class="question-label">Do you have any other feedback or issues?</div>
+        <textarea name="comments" placeholder="Optional: Describe your feedback here..."></textarea>
+      </div>
+
+      <!-- Submit Button -->
+      <button type="submit" class="submit-btn">Submit Feedback</button>
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">© 2024 Chigri Buses. All rights reserved.</div>
+
+  <script>
+    // Feedback Form Submission
+    document.getElementById("feedback-form").addEventListener("submit", function (event) {
+      event.preventDefault(); // Prevent page reload on form submission
+      
+      // Validate required fields
+      const requiredFields = document.querySelectorAll("input[type=radio]:required");
+      let allValid = true;
+
+      requiredFields.forEach((field) => {
+        const group = document.getElementsByName(field.name);
+        if (!Array.from(group).some((option) => option.checked)) {
+          allValid = false;
+        }
+      });
+
+      if (!allValid) {
+        alert("Please complete all required fields!");
+        return;
+      }
+
+      // Show success message and redirect
+      alert("Thank you for your feedback!");
+      window.location.href = "home.html"; // Redirect to home page
+    });
+  </script>
+</body>
+</html>
