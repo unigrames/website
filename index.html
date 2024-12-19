@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ChigariGo - Home</title>
   <link rel="icon" href="favicon.ico" type="/image/x-icon">
-  <style>
+   <style>
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
@@ -24,13 +24,13 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: relative;
+      flex-wrap: wrap; /* Ensure the header content adjusts to mobile */
     }
 
     .logo-banner {
       display: flex;
       align-items: center;
-      margin-right: auto;
+      flex-grow: 1;
     }
 
     .logo-banner img {
@@ -45,10 +45,11 @@
 
     .date-time {
       font-size: 0.9em;
-      color: white;
-      margin-right: 20px; /* Small gap between time and profile icon */
+      margin-right: 10px;
+      margin-top: 5px; /* To prevent overlap on small screens */
     }
 
+    /* Profile Icon and Dropdown */
     .profile-icon {
       width: 40px;
       height: 40px;
@@ -93,39 +94,18 @@
       color: white;
     }
 
-    .auth-buttons {
-      display: flex;
-      gap: 10px;
-    }
-
-    .auth-buttons button {
-      background-color: #2397c3;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      border: none;
-      cursor: pointer;
-    }
-
-    .auth-buttons button:hover {
-      background-color: #ada4d1;
-    }
-
-    nav {
-      margin: 20px 0;
-      text-align: center;
-    }
-
+    /* Navigation Menu */
     nav ul {
       list-style: none;
       padding: 0;
       margin: 0;
       display: flex;
       justify-content: center;
+      flex-wrap: wrap; /* Allow wrapping of menu items */
     }
 
     nav ul li {
-      margin: 0 10px;
+      margin: 5px 10px;
     }
 
     nav ul li a {
@@ -141,30 +121,11 @@
       background-color: #ada4d1;
     }
 
+    /* Content Section */
     .content {
       flex-grow: 1;
       padding: 20px;
       text-align: center;
-    }
-
-    .banner {
-      background-color: #ada4d1;
-      margin: 20px 0;
-      padding: 20px;
-      border-radius: 10px;
-    }
-
-    .notices {
-      background-color: #2397c3;
-      color: #ffffff;
-      padding: 15px;
-      border-radius: 10px;
-      margin-top: 20px;
-      text-align: left;
-    }
-
-    .notices h3 {
-      margin: 0 0 10px 0;
     }
 
     .footer {
@@ -174,48 +135,52 @@
       text-align: center;
     }
 
-    .banner-carousel {
-      position: relative;
-      max-width: 1920px;
-      margin: 20px auto;
-      overflow: hidden;
-      border-radius: 10px;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    /* Media Queries for Mobile Responsiveness */
+    @media (max-width: 768px) {
+      .logo-banner h1 {
+        font-size: 1.2em;
+      }
+
+      .date-time {
+        font-size: 0.8em;
+        margin-right: 5px;
+      }
+
+      .profile-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+      }
+
+      nav ul li a {
+        padding: 8px 15px;
+      }
+
+      .content {
+        padding: 10px;
+      }
     }
 
-    .carousel {
-      display: flex;
-      width: 300%; /* Adjust for number of images */
-      transition: transform 0.5s ease-in-out;
-    }
+    @media (max-width: 480px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-    .carousel img {
-      width: 100%;
-      flex: 1;
-      height: 394px; /* Maintain the aspect ratio */
-      object-fit: cover;
-    }
+      nav ul {
+        flex-direction: column;
+        align-items: flex-start;
+      }
 
-    .carousel-dots {
-      position: absolute;
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 8px;
-    }
+      nav ul li {
+        margin: 5px 0;
+      }
 
-    .carousel-dots span {
-      width: 12px;
-      height: 12px;
-      background-color: #ada4d1;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-    }
-
-    .carousel-dots span.active {
-      background-color: #233d87;
+      .profile-icon {
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+      }
     }
   </style>
 </head>
